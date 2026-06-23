@@ -23,7 +23,7 @@ If the user explicitly asks for a full re-verification (*"re-check everything fr
 ## Core principles (do not skip)
 
 1. **The check ticks boxes; the engineer does not.** `[x]` means verified by this skill; trust existing `[x]`s unless user explicitly requests full re-verify.
-2. **The doc is the spec.** Code disagrees with impl doc → code is the bug; never silently rewrite the impl doc to match drifted code.
+2. **The doc is the spec — unless the doc itself is stale.** Code disagrees with the impl doc → code is the bug; never silently rewrite the impl doc to match drifted code. **Exception:** when the mismatch exists because the codebase moved *underneath* the doc (unrelated work reshaped the area, a referenced target was deleted/moved, a `[ ]` item is already satisfied by different code), the *plan* is the stale thing — halt and re-baseline, don't log it as drift (see Phase 1 "stale baseline" outcome).
 3. **Bidirectional alignment.** Every `D{n}` traces to at least one impl item; every impl item traces to a `D{n}` or structural consequence.
 4. **Idempotent across runs.** Already-`[x]` items are skipped; trust the previous verdict unless user explicitly asks for full re-verify.
 5. **Read-mostly on code.** Update the impl doc; do not edit production code. Surface drift and hand off.
@@ -73,6 +73,9 @@ For each item in the impl doc's `## Implementation checklist`:
 | All four steps pass | Tick `[x]`. Fill `Live reference` with the most precise locator: `<symbol> in <file>:<line>` for code, `<file>:<line-range>` for a config/migration block, or `<file>` for a whole-file artifact (runbook, alert YAML). |
 | Code present, but at least one step fails | Mark `[~]`. Add a row to the **Drifted** table with the verbatim decision quote, the code citation, the specific divergence, and the `Category` (see below). |
 | Code absent (file or symbol not yet present) | Leave `[ ]`. Not started — not a failure, not drift. |
+| The plan's baseline is stale — the area was reshaped by unrelated work, a referenced target was deleted/moved outside this plan, or a `[ ]` item is already satisfied by different code | Halt. Leave the box as-is, add a row to the **Stale baseline** table, and surface to the user before continuing. This is not drift (don't tell the user to "fix the code") — the *plan* is obsolete and needs re-baselining (re-run `/design-task`, or update the doc with the user). |
+
+**Drift vs stale — how to tell them apart.** Both surface as "code ≠ doc," but the cause and the fix differ. Drift = work done *under this plan* diverged from a `D{n}` decision → code is the bug, log `[~]`. Stale = the world moved *outside this plan* (unrelated refactor, deletion, the item already done another way) → the plan is the bug, halt and re-baseline. If you can't tell which, surface to the user rather than guessing.
 
 Silent absorption ("most of it works, I'll tick anyway") is the failure mode this phase exists to prevent. If any of the four steps fails, the box stays `[~]` until the next run after a fix.
 
@@ -115,6 +118,13 @@ This phase produces three tables for the report:
 |---|---|---|
 | 4 | `validateConditionList` in `validator.go` | D2 |
 | 11 | `auth.CheckScope` in `scope.go` | D6 |
+
+**Stale baseline** (items where the plan's premise no longer holds — halt and re-baseline):
+
+| Item | Plan assumed | Current reality | Why stale |
+|---|---|---|---|
+| 9 | `buildSegment` in `segment.go` to be extended | `segment.go` deleted; logic moved to `query/builder.go` by unrelated refactor | referenced target removed outside this plan |
+| 13 | `[ ]` — apply pricing rule | already implemented differently in `pricing/v2.go` | item satisfied by work outside this plan |
 
 ### Phase 2 — Design alignment
 
@@ -209,6 +219,12 @@ Produce the report in chat (not in the doc — the doc is updated mechanically; 
 | Summary row | Notes |
 | ... | ... |
 
+### Stale baseline
+<items whose plan premise no longer holds because the codebase moved underneath the doc — halt and re-baseline before continuing>
+
+| Item | Plan assumed | Current reality | Why stale |
+| ... | ... | ... | ... |
+
 ### Status proposal
 <one of: NO_CHANGE | IN PROGRESS — phase N | PARTIAL — phases X shipped, Y pending | SHIPPED>
 
@@ -224,7 +240,7 @@ Omit any section whose table is empty. Don't print empty headers — empty secti
 **Status-flip rules:**
 - All boxes `[x]`, no drift, no missing coverage, no smuggled scope → propose `SHIPPED`. User confirms before flip.
 - Some boxes `[x]`, rest `[ ]`, no drift → propose `IN PROGRESS — phase N` (highest started phase).
-- Mix of `[x]` and `[~]`/`[ ]`, with drift or smuggled scope → propose `IN PROGRESS — phase N (M drifted items)`. Status reflects forward motion; the Drifted table surfaces the action items. Reserve `NO_CHANGE` for cases where execution should actively halt: design-doc gap, unresolved `D{n}`, or user explicitly said "stop until X".
+- Mix of `[x]` and `[~]`/`[ ]`, with drift or smuggled scope → propose `IN PROGRESS — phase N (M drifted items)`. Status reflects forward motion; the Drifted table surfaces the action items. Reserve `NO_CHANGE` for cases where execution should actively halt: design-doc gap, unresolved `D{n}`, **stale baseline (Phase 1 surfaced rows — the plan no longer matches the code it assumed)**, or user explicitly said "stop until X".
 - Mid-execution invocations: usually `IN PROGRESS — phase N`. Update the doc; report stays informational.
 
 Do not flip the status header without an explicit user "yes". Verification is gating, but status changes are user-owned.
@@ -240,6 +256,7 @@ Stop and self-correct if you notice any of these mid-execution:
 - About to edit production code — this skill is read-mostly on code.
 - Re-verifying an `[x]` item the user didn't explicitly ask to re-check.
 - About to mark a `[ ]` item as drift because the code is absent — absence is "not started," not a failure.
+- About to log a mismatch as drift ("fix the code") when the cause is unrelated work moving the baseline — that's stale, halt and re-baseline instead.
 - About to flip the impl-doc status header without an explicit user "yes".
 
 ---
@@ -265,6 +282,7 @@ These are pre-written rebuttals to plausible-sounding excuses you'll reach for m
 | "Phase 3 verification is overhead — the report looks complete." | Run the six checks anyway. "Looks complete" ships broken reports. |
 | "The symbol got renamed during impl — mark as drift since the doc says `validateX`." | No. Internal renames are not drift if behaviour matches. Update `Live reference` to the actual name. The impl doc tracks roles, not literal spellings. Drift is functional divergence or broken observable contracts (error codes, JSON tags, public API names, DB columns) — not internal renames. |
 | "Behaviour matches but no test names the exact boundary — mark drift." | No. Add to Drifted with `Category: missing test`. Test checklist items in the impl doc track test coverage as their own `[ ]` items — that's the natural home for test gaps. "Wrong behaviour" and "missing test" require different actions; keep them distinguishable in the Category column. |
+| "The code doesn't match the doc — log it as drift and tell the user to fix the code." | Check the cause first. If unrelated work reshaped the area, deleted/moved the target, or already did the item another way, the *plan* is stale — halt, add to Stale baseline, re-baseline. "Code is the bug" only holds when the divergence came from work done under this plan. |
 
 ---
 

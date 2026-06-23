@@ -24,6 +24,7 @@ Sources: <design-doc-1>.md (decisions D{n}), <design-doc-2>.md, ...
 4. **Stop on uncovered design forks.** If an item surfaces a decision the upstream design did not resolve, do not invent an answer here. Drive the new decision through `/design-doc`, then resume.
 5. **Stop on unexpected complexity.** If an item turns out to be wrong, blocked, or larger than stated — surface to the user. Update the doc together before continuing.
 6. **Stop on adjacent-refactor temptation.** If implementing one item makes you want to touch unrelated files, note as a follow-up. Do not smuggle it in.
+7. **Stop on a stale plan.** Before working an item, confirm the code still matches the baseline this doc assumes (Overview/Summary "current state", the named files/symbols, the still-`[ ]` items). If reality has moved — an item is already done differently, a referenced symbol was rewritten/moved by unrelated work, a premise no longer holds — stop. Do not silently reconcile or force the plan onto changed code. Surface to the user and re-baseline (`/design-task-check`, or `/design-task` if the plan itself needs reshaping) before continuing.
 
 ## Overview
 
