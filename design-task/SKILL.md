@@ -101,7 +101,7 @@ Before announcing the impl doc is ready for execution, run these checks. Evidenc
 
 1. **Status header is `DRAFT — ready for execution`.** Doc contains exactly one status line reading `> **Status:** DRAFT — ready for execution` (or accepted variant per `template.md §2`).
 2. **Sources block links to every consumed design doc.** Sources block exists and lists every design doc consumed. Read each listed path — confirm each is `RESOLVED` (or `RESOLVED — applied to ...`).
-3. **`## How to execute this doc` section is present and matches `template.md §1` verbatim.** Doc contains exactly one `## How to execute this doc` section. Re-read the six numbered rules — they are the contract for any executing agent. Do not paraphrase.
+3. **`## How to execute this doc` section is present and matches `template.md §1` verbatim.** Doc contains exactly one `## How to execute this doc` section. Re-read the seven numbered rules — they are the contract for any executing agent. Do not paraphrase.
 4. **Every phase has at least one concrete task.** Read each `### Phase N:` heading. If a phase has no checklist or only placeholder items, the phase shape is wrong — re-think the phase shape or drop the phase.
 5. **`## Summary — what changes where` exists and is comprehensive.** Section is present; every checklist item's target file/area appears in it.
 6. **Optional sections trigger-checked.** For each optional section present, re-verify its trigger from §Picking optional sections. If a trigger does not fire, drop the section.
