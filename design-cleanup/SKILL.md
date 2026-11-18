@@ -105,7 +105,7 @@ Mechanical rules:
 - Delete `## Open questions` entirely (every item should already be answered or moved).
 - Delete `## Pending decisions` entirely.
 - Add `## Summary` at the bottom in the shape of `../design-doc/template.md §1`: one lead line with the outcome, then bullets that each start with a bold label (one per key decision, citing its `D{n}`; then **Key insight**, **Tradeoff**, and **Rollout** / **Open** only when they apply). At most two sentences per bullet. Not a recap of every decision, and not a paragraph — people skim this section, so reading only the lead line and the bold labels must give the point.
-- Keep the intro to one sentence and the Status line to the state plus where it was applied; move any amendment history to a separate `> **History**:` line (template §2).
+- Keep the intro to one sentence and the Status line to the state plus where it was applied; move any amendment history to a separate `> **History**:` line. Shape: `../design-doc/template.md` §2, Status header forms. End every header line except the last with two spaces, or Markdown joins them into one paragraph.
 - Pick optional sections from `../design-doc/template.md §4` using the **selection table** below. Skip any section whose trigger does not fire.
 
 ### Phase 4 — Flip status

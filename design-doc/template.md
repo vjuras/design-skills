@@ -56,9 +56,6 @@ More header lines can follow the Status line:
 > **Source**: <where the requirements came from>
 ```
 
-- **One fact per line:** Status holds the state and where it was applied. History and source get their own lines.
-- **Line breaks:** end every line except the last with two spaces. Without them, Markdown joins the lines into one paragraph.
-
 ---
 
 ## 3. Decision section shape
