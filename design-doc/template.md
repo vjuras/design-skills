@@ -27,14 +27,11 @@ Pure structural reference. SKILL.md decides which optional sections to include a
 
 ## Summary
 
-<one lead line: the outcome in plain words — what ships, or what was decided>
+<one line: the outcome>
 
-- **<Decision label>:** <one or two sentences> (D1)
-- **<Decision label>:** <one or two sentences> (D2, D3)
-- **Key insight:** <the finding that shaped the plan>
-- **Tradeoff:** <what was given up, and why it's acceptable>
-- **Rollout:** <only if it matters: flag, order, phases>   <!-- optional -->
-- **Open:** <only if anything is open: O{n} / gate>         <!-- optional -->
+- **<Decision>:** <one sentence> (D1)
+- **Key insight:** <one sentence>
+- **Tradeoff:** <one sentence>
 ```
 
 ---
@@ -46,14 +43,6 @@ Pure structural reference. SKILL.md decides which optional sections to include a
 > **Status**: RESOLVED
 > **Status**: RESOLVED — applied to `<symbol/file>`
 > **Status**: PARTIAL — phase 1 implemented, phase 2 pending
-```
-
-More header lines can follow the Status line:
-
-```
-> **Status**: RESOLVED — applied to `<repo>#<PR>`
-> **History**: amended <date>: <what changed>
-> **Source**: <where the requirements came from>
 ```
 
 ---
