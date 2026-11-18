@@ -104,7 +104,7 @@ Mechanical rules:
 
 - Delete `## Open questions` entirely (every item should already be answered or moved).
 - Delete `## Pending decisions` entirely.
-- Add `## Summary` at the bottom — 3–6 sentences capturing the shape of the decisions, the key insight, the intentional tradeoff. Not a recap.
+- Add `## Summary` at the bottom in the shape of `../design-doc/template.md §1`: the outcome, the key decisions, the key insight, the intentional tradeoff. Not a recap.
 - Pick optional sections from `../design-doc/template.md §4` using the **selection table** below. Skip any section whose trigger does not fire.
 
 ### Phase 4 — Flip status
@@ -124,7 +124,7 @@ Before announcing the cleaned doc, run these checks. Evidence required — "look
 4. **Every `D{n}` has the resolved shape.** Read each one. Confirm `### Context` (code-anchored), `### Decision: Option <X> (<name>)` (one-paragraph rationale), and `### Options evaluated` table with all options as rows.
 5. **Status header reflects reality.** Matches one of the three forms in Phase 4.
 6. **`Open items` (if present) has the `Gate` column populated for every row.** No empty Gates.
-7. **Summary captures the punchline in 3–6 sentences.** Read it. Not a recap — just shape + insight + tradeoff.
+7. **Summary captures the punchline.** Its first line and bold labels alone give the point. Not a recap.
 
 If any check fails, fix and re-run.
 
@@ -176,7 +176,7 @@ Stop and self-correct if you notice any of these mid-execution:
 | "The user wrote a long Context paragraph; I'll tighten it during collapse." | Cleanup is mechanical. Context is preserved verbatim. Editing for style is editorial drift. |
 | "Two rejected options have similar 'why nots'; I'll merge them into one row." | Each rejected option keeps its own row in `Options evaluated`. The audit trail is the value. |
 | "The selection table says I might need `Validation rules`; I'll add it just in case." | Trigger must fire concretely. Empty or filler sections are worse than missing ones. |
-| "I'll generate a `Summary` paragraph from what I know." | Summary is the punchline (shape + key insight + tradeoff) in 3–6 sentences. If you can't write that confidently, ask the user. |
+| "I'll generate a `Summary` paragraph from what I know." | Summary is the punchline (outcome + key insight + tradeoff), one line plus short labelled bullets. If you can't write that confidently, ask the user. |
 | "The doc is short after collapse — I'll bulk it up with `Open items` / `Consequences`." | Length is not the goal. Each section earns its keep or it goes. |
 | "I'll keep one Pros/Cons/Risks subsection as a 'representative' example." | All rejected options collapse to one-line `Why not` rows. Per-option subsections are deleted. |
 | "The original doc had `<assumption>` tags; I'll leave them tagged in the final form." | Final form must either resolve assumptions (with citation) or move them to `Open items` with a `Gate` column. Untracked assumptions in the final form is a regression. |

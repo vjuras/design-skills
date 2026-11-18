@@ -27,7 +27,11 @@ Pure structural reference. SKILL.md decides which optional sections to include a
 
 ## Summary
 
-<3–6 sentences: shape of the decision, key insight, intentional tradeoff>
+<one line: the outcome>
+
+- **<Decision>:** <one sentence> (D1)
+- **Key insight:** <one sentence>
+- **Tradeoff:** <one sentence>
 ```
 
 ---
