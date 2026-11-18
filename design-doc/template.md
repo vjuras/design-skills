@@ -48,13 +48,16 @@ Pure structural reference. SKILL.md decides which optional sections to include a
 > **Status**: PARTIAL — phase 1 implemented, phase 2 pending
 ```
 
-With amendment history and a source line (each `>` line ends in two spaces, shown as `␠␠`, so they render as separate lines):
+More header lines can follow the Status line:
 
 ```
-> **Status**: RESOLVED — applied to `<repo>#<PR>`␠␠
-> **History**: amended <date>: <what changed>␠␠
+> **Status**: RESOLVED — applied to `<repo>#<PR>`
+> **History**: amended <date>: <what changed>
 > **Source**: <where the requirements came from>
 ```
+
+- **One fact per line:** Status holds the state and where it was applied. History and source get their own lines.
+- **Line breaks:** end every line except the last with two spaces. Without them, Markdown joins the lines into one paragraph.
 
 ---
 
