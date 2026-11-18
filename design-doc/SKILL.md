@@ -218,7 +218,7 @@ You are looking for forks where the code does not commit to a single answer. Com
 - Third person, declarative. No "we" / "I". No throat-clearing ("In this section…") — get to the table.
 - Cite code by `path/to/file.ext:line` or symbol; quote a block only if its shape is structurally informative.
 - Code identifiers in backticks always — fields, files, types, constants.
-- `>` blockquote is for status indicators and cross-doc references only. The Status line carries the state and where it was applied; amendment history goes on its own `> **History**:` line, ending every header line except the last with two spaces so they render separately. Shape: `template.md` §2, Status header forms.
+- `>` blockquote is for status indicators and cross-doc references only. The Status line carries the state and where it was applied; amendment history goes on its own `> **History**:` line, per `template.md §2`. End every header line except the last with two spaces, or Markdown joins them into one paragraph.
 - Most decision-bearing docs land at 100–600 lines. Past 1000 is a smell — split into parent + sub-docs.
 
 ## Red Flags
